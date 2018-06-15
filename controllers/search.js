@@ -1,17 +1,14 @@
+require('dotenv').load();
 var express = require('express');
 var router = express.Router();
 var request = require('request');
 
+
 router.get('/', function(req, res){
-    console.log('SEARCH', req.query.location)
-    var qs = {
-        q: req.query.location
-    }
-    request({
-        url: 'http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={APIKEY}',
-        q: qs
-    }, function(error, resposne, body){
-        console.log(body)
+    var qs = req.query.location;
+    var APPID = process.env.API_KEY;
+    request('http://api.openweathermap.org/data/2.5/forecast?q=' + qs +',us&mode=json&APPID='+APPID, function(error, resposne, body){
+        res.send(body)
     })
 })
 
